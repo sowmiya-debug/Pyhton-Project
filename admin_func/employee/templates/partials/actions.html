@@ -1,0 +1,10 @@
+<td>
+    <a href="{% url 'employee_edit' emp.id %}" class="btn edit-btn">Edit</a>
+    
+    <form action="{% url 'employee_delete' emp.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this employee?');">
+            Delete
+        </button>
+    </form>
+</td>

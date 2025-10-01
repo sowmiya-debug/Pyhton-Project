@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Registration</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        /* Form Container */
+        form {
+            width: 70%;
+            max-width: 800px;
+            margin: 20px auto 50px auto;
+            background-color: #fff;
+            padding: 25px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Fieldsets */
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 0 10px;
+            color: #555;
+        }
+
+        /* Input Fields */
+        input[type="text"],
+        input[type="number"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 6px 0 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        /* Textarea */
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* Buttons */
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-right: 10px;
+            transition: 0.3s ease;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button[type="reset"] {
+            background-color: #f44336;
+            color: white;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #d7372f;
+        }
+
+        /* Validation Errors */
+        .error {
+            color: #d93025;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        /* Messages */
+        p {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        p.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        p.error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            form {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Registration</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <fieldset>
+            <legend>Basic Details</legend>
+            {{ form.name.label_tag }} {{ form.name }}<br>
+            {% if form.name.errors %}<span class="error">{{ form.name.errors.0 }}</span><br>{% endif %}
+
+            {{ form.age.label_tag }} {{ form.age }}<br>
+            {% if form.age.errors %}<span class="error">{{ form.age.errors.0 }}</span><br>{% endif %}
+
+            {{ form.gender.label_tag }} {{ form.gender }}<br>
+            {% if form.gender.errors %}<span class="error">{{ form.gender.errors.0 }}</span><br>{% endif %}
+
+            {{ form.contact_number.label_tag }} {{ form.contact_number }}<br>
+            {% if form.contact_number.errors %}<span class="error">{{ form.contact_number.errors.0 }}</span><br>{% endif %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Additional Details</legend>
+            {{ form.address.label_tag }} {{ form.address }}<br>
+            {% if form.address.errors %}<span class="error">{{ form.address.errors.0 }}</span><br>{% endif %}
+
+            {{ form.emergency_contact.label_tag }} {{ form.emergency_contact }}<br>
+            {% if form.emergency_contact.errors %}<span class="error">{{ form.emergency_contact.errors.0 }}</span><br>{% endif %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Occupation Details</legend>
+            {{ form.department.label_tag }} {{ form.department }}<br>
+            {% if form.department.errors %}<span class="error">{{ form.department.errors.0 }}</span><br>{% endif %}
+
+            {{ form.designation.label_tag }} {{ form.designation }}<br>
+            {% if form.designation.errors %}<span class="error">{{ form.designation.errors.0 }}</span><br>{% endif %}
+
+            {{ form.salary_basic_pay.label_tag }} {{ form.salary_basic_pay }}<br>
+            {% if form.salary_basic_pay.errors %}<span class="error">{{ form.salary_basic_pay.errors.0 }}</span><br>{% endif %}
+
+            {{ form.salary_allowance.label_tag }} {{ form.salary_allowance }}<br>
+            {% if form.salary_allowance.errors %}<span class="error">{{ form.salary_allowance.errors.0 }}</span><br>{% endif %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Credentials</legend>
+            {{ form.username.label_tag }} {{ form.username }}<br>
+            {% if form.username.errors %}<span class="error">{{ form.username.errors.0 }}</span><br>{% endif %}
+
+            {{ form.password.label_tag }} {{ form.password }}<br>
+            {% if form.password.errors %}<span class="error">{{ form.password.errors.0 }}</span><br>{% endif %}
+        </fieldset>
+
+        <button type="submit">Save</button>
+        <button type="reset">Cancel</button>
+    </form>
+</body>
+</html>
