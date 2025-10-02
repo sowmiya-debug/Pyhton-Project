@@ -4,37 +4,76 @@
     <meta charset="UTF-8">
     <title>Manage Employees</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f8f9fa; }
-        .container { width: 90%; margin: 30px auto; }
+        body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; }
+
+        /* Navbar Styles */
+        .navbar {
+            background: #343a40;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar-nav li {
+            margin-left: 20px;
+        }
+        .navbar-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .navbar-nav a:hover {
+            background: #495057;
+        }
+
+        /* Container & Table */
+        .container { width: 95%; margin: 30px auto; }
         h2 { text-align: center; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
         th { background: #007bff; color: white; }
         tr:hover { background: #f1f1f1; }
-        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; }
+
+        /* Buttons */
+        .btn { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 13px; }
         .btn-edit { background: #28a745; color: white; }
         .btn-edit:hover { background: #218838; }
         .btn-delete { background: #dc3545; color: white; }
         .btn-delete:hover { background: #c82333; }
-        .navbar { background: #343a40; padding: 10px; margin-bottom: 20px; }
-        .navbar a { color: white; text-decoration: none; margin: 0 15px; }
-        .navbar a:hover { text-decoration: underline; }
     </style>
     <script>
-        // Confirm before delete
         function confirmDelete(empName) {
             return confirm("Are you sure you want to delete " + empName + "?");
         }
     </script>
 </head>
 <body>
+
     <!-- Navbar -->
-    <div class="navbar">
-        <a href="{% url 'employee_register' %}">Register Employee</a>
-        <a href="{% url 'manage_employee' %}">Manage Employee</a>
-        <a href="{% url 'approvals' %}">Approvals</a>
-        <a href="{% url 'logout' %}">Logout</a>
-    </div>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <ul class="navbar-nav">
+            <li><a href="{% url 'employee_register' %}">Register Employee</a></li>
+            <li><a href="{% url 'manage_employee' %}">Manage Employee</a></li>
+            <li><a href="{% url 'approvals' %}">Approvals</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
 
     <div class="container">
         <h2>Employee List</h2>
@@ -43,7 +82,16 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Emergency Contact</th>
                     <th>Department</th>
+                    <th>Designation</th>
+                    <th>Salary</th>
+                    <th>Salary Allowance</th>
+                    <th>Username</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -52,12 +100,18 @@
                 <tr>
                     <td>{{ employee.id }}</td>
                     <td>{{ employee.name }}</td>
+                    <td>{{ employee.age }}</td>
+                    <td>{{ employee.gender }}</td>
+                    <td>{{ employee.contact_number }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.emergency_contact }}</td>
                     <td>{{ employee.department }}</td>
+                    <td>{{ employee.designation }}</td>
+                    <td>{{ employee.salary_basic_pay }}</td>
+                    <td>{{ employee.salary_allowance }}</td>
+                    <td>{{ employee.user.username }}</td>
                     <td>
-                        <!-- Edit Button -->
                         <a href="{% url 'employee_edit' employee.id %}" class="btn btn-edit">Edit</a>
-
-                        <!-- Delete Button with Confirmation -->
                         <form method="post" action="{% url 'employee_delete' employee.id %}" style="display:inline;" 
                               onsubmit="return confirmDelete('{{ employee.name }}');">
                             {% csrf_token %}
@@ -67,11 +121,12 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5" style="text-align:center;">No employees found.</td>
+                    <td colspan="13" style="text-align:center;">No employees found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
 </body>
 </html>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from employee.models import Employee
-from .forms import EmployeeForm
+from .forms import EmployeeRegisterForm
 
 def admin_login(request):
     if request.method == "POST":
@@ -41,22 +41,61 @@ def dashboard(request):
 
 
 from django.shortcuts import render, redirect
-from .forms import EmployeeForm
 from django.contrib import messages
+from django.contrib.auth.models import User
+from .forms import EmployeeRegisterForm
+from .models import Employee
 
 def employee_register(request):
-    if request.method == 'POST':
-        form = EmployeeForm(request.POST)
+    if request.method == "POST":
+        form = EmployeeRegisterForm(request.POST)
         if form.is_valid():
-            employee = form.save(commit=False)
-            employee.save()
-            messages.success(request, "Employee registered successfully!")
-            return redirect('manage_employees')
-        else:
-            messages.error(request, "Please correct the errors below.")
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            if User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists!")
+            else:
+                # Create User for login
+                user = User.objects.create_user(username=username, password=password)
+
+                # Save employee details
+                employee = form.save(commit=False)
+                employee.user = user
+                employee.save()
+
+                messages.success(request, "Employee registered successfully!")
+                return redirect("manage_employee")  # change to your list page
     else:
-        form = EmployeeForm()
-    return render(request, 'employee_register.html', {'form': form})
+        form = EmployeeRegisterForm()
+    return render(request, "employee_register.html", {"form": form})
+
+
+# from django.contrib.auth.models import User
+# from .models import Employee
+
+# def create_employee(request):
+#     if request.method == "POST":
+#         form = EmployeeForm(request.POST)
+#         if form.is_valid():
+#             # Create Django user
+#             user = User.objects.create_user(
+#                 username=form.cleaned_data['username'],
+#                 password=form.cleaned_data['password']
+#             )
+            
+#             # Create employee record (link to user if needed)
+#             Employee.objects.create(
+#                 user=user,
+#                 name=form.cleaned_data['name'],
+#                 department=form.cleaned_data['department'],
+#                 designation=form.cleaned_data['designation'],
+#                 contact_number=form.cleaned_data['contact_number'],
+#                 emergency_contact=form.cleaned_data['emergency_contact'],
+#                 salary_allowance=form.cleaned_data['salary_allowance'],
+#             )
+#             # redirect somewhere
+
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test

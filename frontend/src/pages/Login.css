@@ -1,0 +1,91 @@
+/* Full-page light neutral background */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #eef2f7; /* soft neutral light gray */
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+}
+
+/* Card styling */
+.card {
+  width: 380px;
+  padding: 40px 30px;
+  border-radius: 12px;
+  background-color: #ffffff; /* clean white card */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Heading */
+.heading {
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Input fields */
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  text-align: left; /* <-- left-aligned text */
+  transition: 0.3s;
+}
+
+.field input::placeholder {
+  color: #999;
+  text-align: left; /* <-- left-aligned placeholder */
+}
+
+.field input:focus {
+  border-color: #0d6efd;
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(13, 110, 253, 0.2);
+}
+
+/* Login button */
+button.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0d6efd;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+/* Error message */
+.alert {
+  margin-bottom: 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  text-align: left;
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  padding: 10px;
+}

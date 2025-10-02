@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,User
 
 def create_superuser(self, email, name='admin',password=None):
    user = self.create_user(email=email,name=name, password=password)
@@ -17,15 +17,18 @@ GENDER_CHOICES = [
     ('Other', 'Other'),
 ]
 
+from django.db import models
+from django.contrib.auth.models import User
+
 class Employee(models.Model):
-    # Basic Details
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # for login
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=10, choices=[('Male','Male'), ('Female','Female'), ('Other','Other')])
     contact_number = models.CharField(max_length=15)
 
     # Additional Details
-    address = models.TextField()
+    address = models.TextField(blank=True, null=True)
     emergency_contact = models.CharField(max_length=15)
 
     # Occupation Details
@@ -34,12 +37,29 @@ class Employee(models.Model):
     salary_basic_pay = models.DecimalField(max_digits=10, decimal_places=2)
     salary_allowance = models.DecimalField(max_digits=10, decimal_places=2)
 
-    # Credentials
-    username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=128)  # store hashed password in real app
-
     def __str__(self):
         return self.name
+
+
+# from django.db import models
+# from django.contrib.auth.models import User
+
+# class Employee(models.Model):
+    
+#     name = models.CharField(max_length=100)
+#     age = models.PositiveIntegerField()
+#     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+
+#     department = models.CharField(max_length=100)
+#     designation = models.CharField(max_length=100)
+#     contact_number = models.CharField(max_length=15)
+#     emergency_contact = models.CharField(max_length=15)
+#     salary_allowance = models.DecimalField(max_digits=10, decimal_places=2)
+#     address = models.TextField(blank=True, null=True)
+
+#     def __str__(self):
+#         return self.name
+
     
 class EmployeeUpdateRequest(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
